@@ -8,7 +8,7 @@ scope = ['https://spreadsheets.google.com/feeds',
 creds = ServiceAccountCredentials.from_json_keyfile_name("api.json", scope)
 client = gspread.authorize(creds)
 
-sheet = client.open("test").sheet1
+sheet = client.open("tester").sheet1
 
 label = dict()
 y = 1

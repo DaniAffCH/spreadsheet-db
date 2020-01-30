@@ -2,6 +2,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import re
 class Connect:
+
     def __init__(self, api_path):
         scope = ['https://spreadsheets.google.com/feeds',
                  'https://www.googleapis.com/auth/drive']
@@ -21,7 +22,7 @@ class Connect:
                 self.sheet = client.open(sheet).sheet1
         except:
             raise Exception("{} not found".format(sheet))
-        ws = self.sheet.get_worksheet(worksheet)
+        #ws = self.sheet.get_worksheet(worksheet)
 
     def createTable(self, name, worksheet_name, fields, worksheet_size = (1000,1000)):
         #crea foglio
