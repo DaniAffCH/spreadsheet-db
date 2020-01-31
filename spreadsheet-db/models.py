@@ -26,4 +26,4 @@ class DB:
             raise Exception("Worksheet '{}' doesn't exists".format(worksheet))
 
     def createWorksheet(self, title, rows=999, cols=999):
-        self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
+        self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols) 
