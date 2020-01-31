@@ -20,7 +20,7 @@ class DB:
         except:
             raise Exception("'{}' not found or you have to authorize client email to spreadsheet".format(sheet))
 
-    def selectWorksheet(self, worksheet=0):
+    def selectWorksheet(self, worksheet):
         self.ws = self.sheet.get_worksheet(worksheet)
         if not self.ws:
             raise Exception("Worksheet '{}' doesn't exists".format(worksheet))
