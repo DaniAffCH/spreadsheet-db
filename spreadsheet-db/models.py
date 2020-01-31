@@ -35,12 +35,14 @@ class DB:
     def createTable(self, title, rows=1000, cols=1000):
         self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
 
-    def createFields(self, nameValue, overwrite = False):
-        if type(nameValue) is not dict:
-            raise Exception("Expected dictionary type, given {}".format(type(nameValue).__name__))
+    def createFields(self, *nameValue, overwrite = False):
+        for e in nameValue:
+            if type(e) != tuple:
+                raise Exception("Expected tuple type, given {}".format(type(e).__name__))
+
         # controllo se la prima riga sia occupata da A alla lunghezza di nameValue
         actualFields = [obj.value for obj in self.ws.range('A1:{}1'.format(chr(64+len(nameValue))))]
-        if not overwrite and actualFields.count("") != len(nameValue):
+        if actualFields.count("") != len(nameValue) and not overwrite :
             raise Exception("Table has already fields values")
         elif overwrite:
             # TO DO
