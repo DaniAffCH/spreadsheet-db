@@ -4,5 +4,8 @@ __version__ = '0.0.0'
 __author__ = 'Daniele Affinita'
 
 mydb = models.DB("../api.json")
-mydb.openSheet("tester")
-mydb.createWorksheet("boomer")
+mydb.selectDB("tester")
+mydb.selectTable(0)
+#mydb.createSheet("prova123", "danieleaffinita2000@gmail.com")
+#mydb.createWorksheet("boomer")
+mydb.createFields({"a":1,"b":2})
