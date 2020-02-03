@@ -65,10 +65,13 @@ class DB:
             raise Exception("Expected list, given {}".format(type(value).__name__))
         if len(value) != lenRow(self.ws, 1):
             raise Exception("Expected {} parameters, given {}".format(lenRow(self.ws, 1), len(value)))
-        # check data type
 
-        # str(type(4).__name__) == "int"
-        for obj in value:
-            expectedDT = "TODO"
-            if type(obj) != expectedDT:
-                pass
+        # check data type
+        for n,obj in enumerate(value):
+            expectedDT = self.ws.cell(2, n+1).value
+            if str(type(obj).__name__) != expectedDT:
+                raise Exception("Expected {}, given {}".format(expectedDT, type(obj).__name__))
+
+        row = findFreeCell(self.ws)
+        for n,obj in enumerate(value):
+            self.ws.update_cell(row, n+1, obj)
