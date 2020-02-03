@@ -36,6 +36,8 @@ class DB:
         self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
 
     def createFields(self, nameValue, overwrite = False):
+        dt = {'int', 'float', 'complex', 'str', 'bool', 'list', 'tuple', 'dict'}
+
         if type(nameValue) != list:
             raise Exception("Expected list type, given {}".format(type(nameValue).__name__))
 
@@ -47,6 +49,26 @@ class DB:
         actualFields = [obj.value for obj in self.ws.range('A1:{}1'.format(chr(64+len(nameValue))))]
         if actualFields.count("") != len(nameValue) and not overwrite :
             raise Exception("Table has already fields values")
+
+        # controllo se i data-type inseriti appartengono a python
+        for element in nameValue:
+            if element[1] not in dt:
+                raise Exception("{} is not a data type accepted".format(element[1]))
+
+
         for n,element in enumerate(nameValue):
             self.ws.update_acell('{}1'.format(chr(65+n)), element[0])
             self.ws.update_acell('{}2'.format(chr(65+n)), element[1])
+
+    def insertRow(self, value):
+        if type(value) != list:
+            raise Exception("Expected list, given {}".format(type(value).__name__))
+        if len(value) != lenRow(self.ws, 1):
+            raise Exception("Expected {} parameters, given {}".format(lenRow(self.ws, 1), len(value)))
+        # check data type
+
+        # str(type(4).__name__) == "int"
+        for obj in value:
+            expectedDT = "TODO"
+            if type(obj) != expectedDT:
+                pass
