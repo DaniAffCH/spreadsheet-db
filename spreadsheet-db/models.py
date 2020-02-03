@@ -10,12 +10,14 @@ class DB:
 
         creds = ServiceAccountCredentials.from_json_keyfile_name(api_path, scope)
         self.client = gspread.authorize(creds)
+        return True
 
     def createDB(self, name, yourEmail):
         # ATTENZIONE IL FILE VIENE CREATO DALL'EMAIL DEL CLIENT API QUINDI NON SARA' VISIBILE
         # PER RISOLVERE BISOGNA CONDIVIDERE IL FILE CON SE STESSI
         self.sheet = self.client.create(name)
         self.sheet.share(yourEmail, perm_type='user', role='writer')
+        return True
 
     def selectDB(self, sheet):
         try:
@@ -26,14 +28,17 @@ class DB:
                 self.sheet = self.client.open(sheet)
         except:
             raise Exception("'{}' not found or you have to authorize client email to spreadsheet".format(sheet))
+        return True
 
     def selectTable(self, worksheet):
         self.ws = self.sheet.get_worksheet(worksheet)
         if not self.ws:
             raise Exception("Worksheet '{}' doesn't exists".format(worksheet))
+        return True
 
     def createTable(self, title, rows=1000, cols=1000):
         self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
+        return True
 
     def createFields(self, nameValue, overwrite = False):
         dt = {'int', 'float', 'complex', 'str', 'bool', 'list', 'tuple', 'dict'}
@@ -59,6 +64,7 @@ class DB:
         for n,element in enumerate(nameValue):
             self.ws.update_acell('{}1'.format(chr(65+n)), element[0])
             self.ws.update_acell('{}2'.format(chr(65+n)), element[1])
+        return True
 
     def insertRow(self, value):
         if type(value) != list:
@@ -75,3 +81,4 @@ class DB:
         row = findFreeCell(self.ws)
         for n,obj in enumerate(value):
             self.ws.update_cell(row, n+1, obj)
+        return True
