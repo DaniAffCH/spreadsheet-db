@@ -10,7 +10,6 @@ class DB:
 
         creds = ServiceAccountCredentials.from_json_keyfile_name(api_path, scope)
         self.client = gspread.authorize(creds)
-        return True
 
     def createDB(self, name, yourEmail):
         # ATTENZIONE IL FILE VIENE CREATO DALL'EMAIL DEL CLIENT API QUINDI NON SARA' VISIBILE
@@ -38,6 +37,11 @@ class DB:
 
     def createTable(self, title, rows=1000, cols=1000):
         self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
+        return True
+
+    def dropTable(self, worksheet):
+        # NON TESTATO
+        self.sheet.del_worksheet(worksheet)
         return True
 
     def createFields(self, nameValue, overwrite = False):

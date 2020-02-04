@@ -12,7 +12,7 @@ def lenRow(worksheet, row):
 
 #trova la prima cella libera in una colonna
 def findFreeCell(worksheet, column = 1):
-    counter = 1
+    counter = 4
     while worksheet.cell(counter, column).value != "":
         counter += 1
     return counter
