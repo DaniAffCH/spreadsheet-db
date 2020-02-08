@@ -31,6 +31,22 @@ class DB:
 
     def dropDB(self, sheet):
         # NON FUNZIONA MANCO PER SBAGLIO
+        '''
+        .--.       .--.
+    _  `    \     /    `  _
+     `\.===. \.^./ .===./`
+            \/`"`\/
+         ,  |     |  ,
+        / `\|;-.-'|/` \
+       /    |::\  |    \
+    .-' ,-'`|:::; |`'-, '-.
+        |   |::::\|   | 
+        |   |::::;|   |
+        |   \:::://   |
+        |    `.://'   |
+       .'             `.
+    _,'                 `,_
+        '''
         self.client.del_spreadsheet(sheet)
 
     def selectTable(self, worksheet):
@@ -44,7 +60,6 @@ class DB:
         return True
 
     def dropTable(self, worksheet):
-        # NON TESTATO
         self.sheet.del_worksheet(self.sheet.get_worksheet(worksheet))
         return True
 
