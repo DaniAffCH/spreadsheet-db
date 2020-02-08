@@ -29,6 +29,10 @@ class DB:
             raise Exception("'{}' not found or you have to authorize client email to spreadsheet".format(sheet))
         return True
 
+    def dropDB(self, sheet):
+        # NON FUNZIONA MANCO PER SBAGLIO
+        self.client.del_spreadsheet(sheet)
+
     def selectTable(self, worksheet):
         self.ws = self.sheet.get_worksheet(worksheet)
         if not self.ws:
@@ -41,7 +45,7 @@ class DB:
 
     def dropTable(self, worksheet):
         # NON TESTATO
-        self.sheet.del_worksheet(worksheet)
+        self.sheet.del_worksheet(self.sheet.get_worksheet(worksheet))
         return True
 
     def createFields(self, nameValue, overwrite = False):
