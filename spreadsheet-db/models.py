@@ -40,7 +40,7 @@ class DB:
         / `\|;-.-'|/` \
        /    |::\  |    \
     .-' ,-'`|:::; |`'-, '-.
-        |   |::::\|   | 
+        |   |::::\|   |
         |   |::::;|   |
         |   \:::://   |
         |    `.://'   |
@@ -63,7 +63,8 @@ class DB:
         self.sheet.del_worksheet(self.sheet.get_worksheet(worksheet))
         return True
 
-    def createFields(self, nameValue, overwrite = False):
+    def createFields(self, nameValue, primaryKey = None, overwrite = False):
+
         dt = {'int', 'float', 'complex', 'str', 'bool', 'list', 'tuple', 'dict'}
 
         if type(nameValue) != list:
@@ -83,10 +84,12 @@ class DB:
             if element[1] not in dt:
                 raise Exception("{} is not a data type accepted".format(element[1]))
 
-
         for n,element in enumerate(nameValue):
-            self.ws.update_acell('{}1'.format(chr(65+n)), element[0])
-            self.ws.update_acell('{}2'.format(chr(65+n)), element[1])
+            if element[0] == primaryKey:
+                self.ws.update_acell('{}1'.format(chr(65+n)), element[0]+" [PRIMARY KEY]")
+            else:
+                self.ws.update_acell('{}1'.format(chr(65+n)), element[0])
+                self.ws.update_acell('{}2'.format(chr(65+n)), element[1])
         return True
 
     def insertRow(self, value):
