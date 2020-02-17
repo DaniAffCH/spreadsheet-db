@@ -16,3 +16,14 @@ def findFreeCell(worksheet, column = 1):
     while worksheet.cell(counter, column).value != "":
         counter += 1
     return counter
+
+def isUnique(worksheet, key, column = 1):
+    counter = 4
+    values = set()
+    while worksheet.cell(counter, column).value != "":
+        val = worksheet.cell(counter, column).value
+        values.add(val)
+        counter += 1
+    if key in values:
+        return False
+    return True

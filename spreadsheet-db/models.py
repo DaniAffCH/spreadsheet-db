@@ -98,11 +98,20 @@ class DB:
         if len(value) != lenRow(self.ws, 1):
             raise Exception("Expected {} parameters, given {}".format(lenRow(self.ws, 1), len(value)))
 
+        #NON TESTATO
+        columnKEY = None
+
         # check data type
         for n,obj in enumerate(value):
             expectedDT = self.ws.cell(2, n+1).value
+            field = self.ws.cell(1, n+1).value
+            if "[PRIMARY KEY]" in field:
+                columnKEY = n+1
             if str(type(obj).__name__) != expectedDT:
                 raise Exception("Expected {}, given {}".format(expectedDT, type(obj).__name__))
+
+        if not isUnique(self.ws, value[columnKEY-1], column = columnKEY):
+            raise Exception("Found duplicate in primary key")
 
         row = findFreeCell(self.ws)
         for n,obj in enumerate(value):
