@@ -3,3 +3,5 @@ api.json
 __pycache__
 *.pyc
 /spreadsheet-db/__pycache__
+/spreadsheet-db/venv
+/spreadsheet-db/.idea

@@ -11,10 +11,13 @@ class DB:
         creds = ServiceAccountCredentials.from_json_keyfile_name(api_path, scope)
         self.client = gspread.authorize(creds)
 
-    def createDB(self, name, yourEmail):
+    def createDB(self, nameDB, yourEmail):
         # ATTENZIONE IL FILE VIENE CREATO DALL'EMAIL DEL CLIENT API QUINDI NON SARA' VISIBILE
         # PER RISOLVERE BISOGNA CONDIVIDERE IL FILE CON SE STESSI
-        self.sheet = self.client.create(name)
+        for i in self.client.list_spreadsheet_files():
+            if i["name"] == nameDB:
+                raise Exception("Another database with the same name already exists.")
+        self.sheet = self.client.create(nameDB)
         self.sheet.share(yourEmail, perm_type='user', role='writer')
         return True
 
@@ -30,24 +33,13 @@ class DB:
         return True
 
     def dropDB(self, sheet):
-        # NON FUNZIONA MANCO PER SBAGLIO
-        '''
-        .--.       .--.
-    _  `    \     /    `  _
-     `\.===. \.^./ .===./`
-            \/`"`\/
-         ,  |     |  ,
-        / `\|;-.-'|/` \
-       /    |::\  |    \
-    .-' ,-'`|:::; |`'-, '-.
-        |   |::::\|   |
-        |   |::::;|   |
-        |   \:::://   |
-        |    `.://'   |
-       .'             `.
-    _,'                 `,_
-        '''
-        self.client.del_spreadsheet(sheet)
+        id = -1
+        for elem in self.client.list_spreadsheet_files():
+            if elem["name"] == sheet:
+                id = elem["id"]
+                break
+        if id == -1: raise Exception("Database not found.")
+        self.client.del_spreadsheet(id)
 
     def selectTable(self, worksheet):
         self.ws = self.sheet.get_worksheet(worksheet)
@@ -56,6 +48,7 @@ class DB:
         return True
 
     def createTable(self, title, rows=1000, cols=1000):
+        print(self.sheet.worksheets())
         self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
         return True
 
