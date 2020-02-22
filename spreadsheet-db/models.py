@@ -19,6 +19,9 @@ class DB:
                 raise Exception("Another database with the same name already exists.")
         self.sheet = self.client.create(nameDB)
         self.sheet.share(yourEmail, perm_type='user', role='writer')
+
+        #Markdown of Sheet1
+        self.sheet.worksheet("Sheet1").update_cell(2, 1, "newDB")
         return True
 
     def selectDB(self, sheet):
@@ -33,13 +36,10 @@ class DB:
         return True
 
     def dropDB(self, sheet):
-        id = -1
-        for elem in self.client.list_spreadsheet_files():
-            if elem["name"] == sheet:
-                id = elem["id"]
-                break
+        id = getFileIDFromDBName(self.client, sheet)
         if id == -1: raise Exception("Database not found.")
         self.client.del_spreadsheet(id)
+        self.sheet = None
 
     def selectTable(self, worksheet):
         self.ws = self.sheet.get_worksheet(worksheet)
@@ -48,8 +48,31 @@ class DB:
         return True
 
     def createTable(self, title, rows=1000, cols=1000):
-        print(self.sheet.worksheets())
-        self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
+        try:
+            if not self.sheet: raise Exception("No Database selected.")
+        except:
+            raise Exception("No Database selected.")
+        if title == "Sheet1":
+            #Check if Sheet1 is already in the DB
+            if isInDB(self.sheet, "Sheet1"):
+                #Check if it's marked
+                if self.sheet.worksheet("Sheet1").cell(2, 1).value == "newDB":
+                    self.sheet.worksheet("Sheet1").update_cell(2, 1, "")
+                    self.ws = self.sheet.worksheet("Sheet1")
+                else:
+                    raise Exception("Worksheet '{}' already exists.".format(title))
+            else:
+                self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
+        elif not isInDB(self.sheet, title):
+            self.ws = self.sheet.add_worksheet(title=title, rows=rows, cols=cols)
+            #Deletes Sheet1 if still marked
+            if isInDB(self.sheet, "Sheet1"):
+                #Check if it's marked
+                if self.sheet.worksheet("Sheet1").cell(2, 1).value == "newDB":
+                    self.sheet.del_worksheet(self.sheet.worksheet("Sheet1"))
+        else:
+            raise Exception("Worksheet '{}' already exists.".format(title))
+
         return True
 
     def dropTable(self, worksheet):

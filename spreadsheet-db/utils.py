@@ -27,3 +27,16 @@ def isUnique(worksheet, key, column = 1):
     if key in values:
         return False
     return True
+
+def getFileIDFromDBName(client, name):
+    id = -1
+    for elem in client.list_spreadsheet_files():
+        if elem["name"] == name:
+            id = elem["id"]
+            break
+    return id
+
+def isInDB(sheet, title):
+    for e in sheet:
+        if e.title == title: return True
+    return False

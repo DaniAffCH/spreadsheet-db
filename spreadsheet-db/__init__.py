@@ -5,13 +5,25 @@ __author__ = 'Daniele Affinita'
 
 user = "clashroyell0@gmail.com"
 mydb = models.DB("../api.json")
-#mydb.selectDB("tester")
-#mydb.selectTable(0)
-mydb.createDB("andicappatoDB", user)
+
+#------------------------------------------------------------------------------------------------------
+#Creazione di un Database e di alcune Tabelle
+#mydb.createDB("andicappatoDB", user)
 #mydb.createTable("boomer")
 #mydb.createFields([("bamba", "bool"), ("dim", "float")], "bamba", True)
 #for c in range(3):
-    #mydb.insertRow([False,float(c)])
+#mydb.insertRow([False,float(c)])
+
+#------------------------------------------------------------------------------------------------------
+#Selezione di un Database
+#mydb.selectDB("tester")
+#mydb.selectTable(0)
+
+#------------------------------------------------------------------------------------------------------
+#Eliminazione di un Database/di Tabelle
 #mydb.dropTable(2)
 #mydb.dropDB("andicappatoDB")
 #print(mydb.testUnique())
+
+#------------------------------------------------------------------------------------------------------
+#Test vari
