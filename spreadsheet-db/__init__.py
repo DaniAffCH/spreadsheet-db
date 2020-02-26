@@ -16,8 +16,8 @@ mydb = models.DB("../api.json")
 
 #------------------------------------------------------------------------------------------------------
 #Selezione di un Database
-#mydb.selectDB("tester")
-#mydb.selectTable(0)
+mydb.selectDB("tester")
+mydb.selectTable("Foglio1")
 
 #------------------------------------------------------------------------------------------------------
 #Eliminazione di un Database/di Tabelle
@@ -27,3 +27,4 @@ mydb = models.DB("../api.json")
 
 #------------------------------------------------------------------------------------------------------
 #Test vari
+mydb.insertRow(["", ""])

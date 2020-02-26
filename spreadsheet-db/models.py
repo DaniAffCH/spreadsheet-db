@@ -42,7 +42,9 @@ class DB:
         self.sheet = None
 
     def selectTable(self, worksheet):
-        self.ws = self.sheet.get_worksheet(worksheet)
+        if isinstance(worksheet, str):
+            self.ws = self.sheet.worksheet(worksheet)
+        else: self.ws = self.sheet.get_worksheet(worksheet)
         if not self.ws:
             raise Exception("Worksheet '{}' doesn't exists".format(worksheet))
         return True
@@ -109,6 +111,10 @@ class DB:
         return True
 
     def insertRow(self, value):
+        try:
+            self.ws
+        except:
+            raise Exception("No Table selected.")
         if type(value) != list:
             raise Exception("Expected list, given {}".format(type(value).__name__))
         if len(value) != lenRow(self.ws, 1):
